@@ -2,6 +2,7 @@
     <div>
       <WeatherInput @get-weather="fetchWeather" />
       <WeatherDisplay :city="city" :weather="weather" />
+      
     </div>
   </template>
   

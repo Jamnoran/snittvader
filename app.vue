@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <NuxtLayout>
-      <NuxtPage/>
+      <v-app>
+        <NuxtPage/>
+     </v-app>
     </NuxtLayout>
     <footer>
       <p>&copy; 2024 Weather Application</p>
