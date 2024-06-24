@@ -1,22 +1,9 @@
 <template>
-  <v-container v-if="weather.length">
-    <v-row>
-      <v-col>
-        <v-card>
-          <v-card-title>
-            Weather for {{ city }}
-          </v-card-title>
-          <v-card-text>
-            <v-list>
-              <v-list-item v-for="day in weather" :key="day.date">
-                <v-list-item-title>{{ day.date }}: {{ day.temperature }}°C</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row v-if="weather.length">
+    <v-col>
+     <WeatherCard :city="city" :weather="weather" />
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

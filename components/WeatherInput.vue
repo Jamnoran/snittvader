@@ -1,5 +1,5 @@
 <template>
-  <v-container class="weather-input-container">
+
     <v-row justify="center">
       <v-col cols="4">
         <v-text-field
@@ -14,7 +14,7 @@
         <v-btn @click="submitCity" color="primary" small>Get Weather</v-btn>
       </v-col>
     </v-row>
-  </v-container>
+
 </template>
 
 <script>
