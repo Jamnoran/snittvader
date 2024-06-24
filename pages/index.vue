@@ -1,7 +1,7 @@
 <template>
   <div>
     <WeatherInput @get-weather="fetchWeather" />
-    <WeatherDisplay :city="city" :weather="weather" />
+    <WeatherDisplay :city="city" :weather="weather" :isLoading="isLoading" />
   </div>
 </template>
 
@@ -18,11 +18,13 @@ export default {
   data() {
     return {
       city: '',
-      weather: []
+      weather: [],
+      isLoading: false
     }
   },
   methods: {
     async fetchWeather(cityName) {
+      this.isLoading = true;
       try {  
         const config = useRuntimeConfig();
         const apiKey = config.public.OPENCAGE_API_KEY;
@@ -41,8 +43,11 @@ export default {
 
         // Process and merge weather data
         this.weather = this.processWeatherData([yrNoWeatherResponse.data, smhiWeatherResponse.data]);
+
       } catch (error) {
         console.error("Error fetching weather data:", error);
+      } finally {
+        this.isLoading = false;
       }
     },
     processWeatherData(weatherDataArray) {

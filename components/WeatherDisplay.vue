@@ -1,7 +1,7 @@
 <template>
-  <v-row v-if="weather.length">
+  <v-row >
     <v-col>
-     <WeatherCard :city="city" :weather="weather" />
+     <WeatherCard :city="city" :weather="weather" :isLoading="isLoading" />
     </v-col>
   </v-row>
 </template>
@@ -12,6 +12,10 @@ import { WeatherDay } from '~/types/weather';
 
 export default defineComponent({
   props: {
+    isLoading: {
+      type: Boolean,
+      required: true
+    },
     city: {
       type: String,
       required: true

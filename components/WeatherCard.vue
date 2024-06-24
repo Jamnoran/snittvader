@@ -1,6 +1,11 @@
 <template>
-    <v-row>
-      <v-col>
+    <v-row justify="center">
+      <v-col cols="6">
+        <v-skeleton-loader type="card" v-if="isLoading" class="mx-auto" max-width="368"></v-skeleton-loader>
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-if="weather.length && !isLoading">
+      <v-col cols="6">
  
         <v-card
           class="mx-auto"
@@ -96,6 +101,10 @@ import { WeatherDay } from '~/types/weather';
 
 export default defineComponent({
   props: {
+    isLoading: {
+      type: Boolean,
+      required: true
+    },
     city: {
       type: String,
       required: true
