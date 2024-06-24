@@ -1,19 +1,23 @@
 <template>
-  <div>
-    <WeatherInput @get-weather="fetchWeather" />
-    <WeatherDisplay :city="city" :weather="weather" />
-  </div>
+  <v-container>
+    <div>
+      <WeatherInput @get-weather="fetchWeather" />
+      <WeatherDisplay :city="city" :weather="weather" />
+    </div>
+  </v-container>
 </template>
 
 <script>
 import axios from 'axios';
 import WeatherInput from '~/components/WeatherInput.vue';
 import WeatherDisplay from '~/components/WeatherDisplay.vue';
+import WeatherCard from '~/components/WeatherCard.vue';
 
 export default {
   components: {
     WeatherInput,
-    WeatherDisplay
+    WeatherDisplay,
+    WeatherCard
   },
   data() {
     return {

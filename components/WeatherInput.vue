@@ -1,20 +1,20 @@
 <template>
-  <v-container class="weather-input-container">
-    <v-row justify="center">
-      <v-col cols="4">
-        <v-text-field
-          v-model="city"
-          label="Enter city name"
-          @keyup.enter="submitCity"
-          outlined
-          dense
-        ></v-text-field>
-      </v-col>
-      <v-col cols="4">
-        <v-btn @click="submitCity" color="primary" small>Get Weather</v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row justify="center">
+    <v-col cols="4">
+      <v-text-field
+        v-model="city"
+        label="Stad"
+        @keyup.enter="submitCity"
+        variant="outlined"
+        dense
+      ></v-text-field>
+    </v-col>
+  </v-row>
+  <v-row justify="center">
+    <v-col cols="4">
+      <v-btn @click="submitCity" color="primary" small>Sök</v-btn>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
