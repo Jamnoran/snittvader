@@ -1,11 +1,11 @@
 <template>
     <v-row justify="center">
-      <v-col cols="6">
+      <v-col cols="12" md="6">
         <v-skeleton-loader type="card" v-if="isLoading" class="mx-auto" max-width="368"></v-skeleton-loader>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="weather.length && !isLoading">
-      <v-col cols="6">
+      <v-col cols="12" md="6">
  
         <v-card
           class="mx-auto"
@@ -20,7 +20,7 @@
           <v-card-text class="py-0">
             <v-row align="center" no-gutters>
               <v-col
-                class="text-h3"
+                class="text-h5 text-md-h3"
                 cols="6"
               >
                 {{ weather[0].temperature }}&deg;C
@@ -30,7 +30,8 @@
                 <v-icon
                   color="info"
                   icon="mdi-weather-partly-cloudy"
-                  size="88"
+                  size="48"
+                  md-size="88"
                 ></v-icon>
               </v-col>
             </v-row>
