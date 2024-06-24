@@ -9,9 +9,7 @@
           <v-card-text>
             <v-list>
               <v-list-item v-for="day in weather" :key="day.date">
-                <v-list-item-content>
-                  <v-list-item-title>{{ day.date }}: {{ day.temperature }}°C</v-list-item-title>
-                </v-list-item-content>
+                <v-list-item-title>{{ day.date }}: {{ day.temperature }}°C</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-card-text>
