@@ -1,15 +1,15 @@
 <template>
-    <v-row justify="center">
-      <v-col cols="12" md="6">
-        <v-skeleton-loader type="card" v-if="isLoading" class="mx-auto" max-width="368"></v-skeleton-loader>
+    <v-row justify="center" v-if="isLoading" >
+      <v-col md="4" xs="10">
+        <v-skeleton-loader type="card" class="mx-auto" max-width="368"></v-skeleton-loader>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="weather.length && !isLoading">
-      <v-col cols="12" md="6">
+      <v-col md="4" sm="4" class="custom-padding-xs">
  
         <v-card
-          class="mx-auto"
-          max-width="368"
+          
+          
         >
           <v-card-item :title="city.toUpperCase()">
             <template v-slot:subtitle>
@@ -124,3 +124,13 @@ export default defineComponent({
   }
 });
 </script>
+
+<style scoped>
+
+
+@media (max-width: 600px) {
+  .custom-padding-xs {
+    padding: 16px; /* Equivalent to pa-4 */
+  }
+}
+</style>

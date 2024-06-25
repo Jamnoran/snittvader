@@ -4,14 +4,16 @@
       <v-col cols="4">
         <v-text-field
           v-model="city"
-          label="Enter city name"
+          label="Sök Stad"
           @keyup.enter="submitCity"
-          outlined
+          variant="outlined"
           dense
         ></v-text-field>
       </v-col>
+    </v-row>
+    <v-row justify="center" class="mt-n3">
       <v-col cols="4">
-        <v-btn @click="submitCity" color="primary" small>Get Weather</v-btn>
+        <v-btn @click="submitCity" color="primary" small block>Sök</v-btn>
       </v-col>
     </v-row>
 
