@@ -21,7 +21,10 @@
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  emits: ['get-weather'],
   data() {
     return {
       city: ''
@@ -32,7 +35,7 @@ export default {
       this.$emit('get-weather', this.city);
     }
   }
-}
+});
 </script>
 
 <style scoped>
