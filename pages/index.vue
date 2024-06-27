@@ -59,9 +59,35 @@ export default {
           data.properties.timeseries.forEach(timeserie => {
             const date = timeserie.time.split('T')[0];
             if (!dailyForecasts[date]) {
-              dailyForecasts[date] = [];
+              dailyForecasts[date] = { temperatures: [], conditions: [] };
             }
-            dailyForecasts[date].push(timeserie.data.instant.details.air_temperature);
+            dailyForecasts[date].temperatures.push(timeserie.data.instant.details.air_temperature);
+
+            // Collect weather conditions
+            const conditions = [];
+            if (timeserie.data.next_12_hours) {
+              conditions.push(timeserie.data.next_12_hours.summary.symbol_code);
+            }
+            if (timeserie.data.next_6_hours) {
+              conditions.push(timeserie.data.next_6_hours.summary.symbol_code);
+            }
+            if (timeserie.data.next_1_hours) {
+              conditions.push(timeserie.data.next_1_hours.summary.symbol_code);
+            }
+
+            if (conditions.length > 0) {
+              // Determine the most frequent condition
+              const conditionCounts = conditions.reduce((acc, condition) => {
+                acc[condition] = (acc[condition] || 0) + 1;
+                return acc;
+              }, {});
+
+              const mostFrequentCondition = Object.keys(conditionCounts).reduce((a, b) => 
+                conditionCounts[a] > conditionCounts[b] ? a : b
+              );
+
+              dailyForecasts[date].conditions.push(mostFrequentCondition);
+            }
           });
         }
 
@@ -72,24 +98,33 @@ export default {
             const tempParam = timeserie.parameters.find(param => param.name === 't');
             if (tempParam) {
               if (!dailyForecasts[date]) {
-                dailyForecasts[date] = [];
+                dailyForecasts[date] = { temperatures: [], conditions: [] };
               }
-              dailyForecasts[date].push(tempParam.values[0]);
+              dailyForecasts[date].temperatures.push(tempParam.values[0]);
             }
           });
         }
       });
 
       const medianWeather = Object.keys(dailyForecasts).map(date => {
-        const temperatures = dailyForecasts[date];
+        const temperatures = dailyForecasts[date].temperatures;
         temperatures.sort((a, b) => a - b);
         const medianTemperature = temperatures.length % 2 === 0
           ? (temperatures[temperatures.length / 2 - 1] + temperatures[temperatures.length / 2]) / 2
           : temperatures[Math.floor(temperatures.length / 2)];
 
-        return { date, temperature: medianTemperature };
-      });
+        const conditions = dailyForecasts[date].conditions;
+        const conditionCounts = conditions.reduce((acc, condition) => {
+          acc[condition] = (acc[condition] || 0) + 1;
+          return acc;
+        }, {});
 
+        const mostFrequentCondition = Object.keys(conditionCounts).reduce((a, b) => 
+          conditionCounts[a] > conditionCounts[b] ? a : b
+        , conditions[0]);
+
+        return { date, temperature: medianTemperature, condition: mostFrequentCondition };
+      });
       return medianWeather;
     }
   }
