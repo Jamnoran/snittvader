@@ -1,11 +1,11 @@
 <template>
     <v-row justify="center" v-if="isLoading" >
-      <v-col md="4" xs="10">
-        <v-skeleton-loader type="card" class="mx-auto" max-width="368"></v-skeleton-loader>
+      <v-col sm="4">
+        <v-skeleton-loader type="card" class="mx-auto"></v-skeleton-loader>
       </v-col>
     </v-row>
     <v-row justify="center" v-if="weather.length && !isLoading">
-      <v-col md="4" sm="4" class="custom-padding-xs">
+      <v-col sm="4" class="custom-padding-xs">
  
         <v-card
           
