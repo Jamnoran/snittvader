@@ -23,7 +23,7 @@
                 class="text-h5 text-md-h3"
                 cols="6"
               >
-                {{ weather[0].temperature }}&deg;C
+                {{ weather[0].temperature }}&deg;C / {{ weather[0].condition }}
               </v-col>
     
               <v-col class="text-right" cols="6">
@@ -75,7 +75,7 @@
                   v-for="item in weather"
                   :key="item.date"
                   append-icon="mdi-white-balance-sunny"
-                  :subtitle="item.temperature + '°'"
+                  :subtitle="item.temperature + '°' + ' / ' + item.condition"
                   :title="item.date"
                 >
                 </v-list-item>
