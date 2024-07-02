@@ -1,24 +1,30 @@
 <template>
 
     <v-row justify="center">
-      <v-col cols="4">
+      <v-col sm="4">
         <v-text-field
           v-model="city"
-          label="Enter city name"
+          label="Sök Stad"
           @keyup.enter="submitCity"
-          outlined
+          variant="outlined"
           dense
+          style="width: calc(100% );"
         ></v-text-field>
       </v-col>
-      <v-col cols="4">
-        <v-btn @click="submitCity" color="primary" small>Get Weather</v-btn>
+    </v-row>
+    <v-row justify="center" class="mt-n3">
+      <v-col sm="4">
+        <v-btn @click="submitCity" color="primary" small block>Sök</v-btn>
       </v-col>
     </v-row>
 
 </template>
 
 <script>
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  emits: ['get-weather'],
   data() {
     return {
       city: ''
@@ -29,7 +35,7 @@ export default {
       this.$emit('get-weather', this.city);
     }
   }
-}
+});
 </script>
 
 <style scoped>
