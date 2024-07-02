@@ -13,6 +13,7 @@ export default defineEventHandler(async (event) => {
   const apiUrl = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${lat}&lon=${lon}`;
 
   try {
+    console.log(`Fetching Yr.no weather data from URL: ${apiUrl}`);
     const response = await axios.get(apiUrl, {
       headers: {
         'User-Agent': 'Snittväder/1.0 (lindahl.eric@gmail.com)'

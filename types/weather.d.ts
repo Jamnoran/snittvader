@@ -2,6 +2,8 @@
 export interface WeatherDay {
     date: string;
     temperature: number;
+    windSpeed: number;
+    humidity: number;
     condition: string;
   }
   

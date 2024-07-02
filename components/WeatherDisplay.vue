@@ -1,16 +1,22 @@
 <template>
-  <v-row >
-    <v-col>
-     <WeatherCard :city="city" :weather="weather" :isLoading="isLoading" />
-    </v-col>
-  </v-row>
+  <v-container fluid>
+    <v-row v-for="(weatherDay, index) in weather" :key="index" class="mb-4">
+      <v-col>
+        <WeatherCard :weatherDay="weatherDay" :isLoading="isLoading" />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { WeatherDay } from '~/types/weather';
+import WeatherCard from '~/components/WeatherCard.vue';
 
 export default defineComponent({
+  components: {
+    WeatherCard
+  },
   props: {
     isLoading: {
       type: Boolean,
@@ -31,4 +37,3 @@ export default defineComponent({
 <style scoped>
 /* Add your styles here */
 </style>
-
