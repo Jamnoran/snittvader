@@ -106,12 +106,9 @@ export default {
         }
       });
 
-      const medianWeather = Object.keys(dailyForecasts).map(date => {
+      const averageWeather = Object.keys(dailyForecasts).map(date => {
         const temperatures = dailyForecasts[date].temperatures;
-        temperatures.sort((a, b) => a - b);
-        const medianTemperature = temperatures.length % 2 === 0
-          ? (temperatures[temperatures.length / 2 - 1] + temperatures[temperatures.length / 2]) / 2
-          : temperatures[Math.floor(temperatures.length / 2)];
+        const averageTemperature = temperatures.reduce((sum, temp) => sum + temp, 0) / temperatures.length;
 
         const conditions = dailyForecasts[date].conditions;
         const conditionCounts = conditions.reduce((acc, condition) => {
@@ -123,9 +120,9 @@ export default {
           conditionCounts[a] > conditionCounts[b] ? a : b
         , conditions[0]);
 
-        return { date, temperature: medianTemperature, condition: mostFrequentCondition };
+        return { date, temperature: averageTemperature, condition: mostFrequentCondition };
       });
-      return medianWeather;
+      return averageWeather;
     }
   }
 }
