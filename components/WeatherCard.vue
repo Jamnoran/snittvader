@@ -15,7 +15,7 @@
         <v-card-text class="py-0">
           <v-row align="center" no-gutters>
             <v-col class="text-h5 text-md-h3 text-left" cols="6">
-              {{ weatherDay.temperature.toFixed(1) }}&deg;C
+              {{ weatherDay.temperature.toFixed(1) }}&deg;C / {{ weatherDay.condition }}
             </v-col>
             <v-col class="text-right" cols="6">
               <v-icon
