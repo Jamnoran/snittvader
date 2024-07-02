@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row v-for="(weatherDay, index) in weather" :key="index" class="mb-4">
       <v-col>
-        <WeatherCard :city="city" :weatherDay="weatherDay" :isLoading="isLoading" />
+        <WeatherCard :weatherDay="weatherDay" :isLoading="isLoading" />
       </v-col>
     </v-row>
   </v-container>
