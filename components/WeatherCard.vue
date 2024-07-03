@@ -15,15 +15,15 @@
         <v-card-text class="py-0">
           <v-row align="center" no-gutters>
             <v-col class="text-h5 text-md-h3 text-left" cols="6">
-              {{ weatherDay.temperature.toFixed(1) }}&deg;C / {{ weatherDay.condition }}
+              {{ weatherDay.temperature.toFixed(1) }}&deg;C / {{ getConditionTranslation(weatherDay.condition) }}
             </v-col>
             <v-col class="text-right" cols="6">
-              <v-icon
-                color="info"
-                icon="mdi-weather-partly-cloudy"
-                size="48"
-                md-size="88"
-              ></v-icon>
+              <v-img
+                :src="`/weatherIcons/${getConditionIcon(weatherDay.condition)}`"
+                width="148"
+                height="148"
+                class="mx-auto"
+              ></v-img>
             </v-col>
           </v-row>
         </v-card-text>
@@ -81,6 +81,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { WeatherDay } from '~/types/weather';
+import { conditionTranslations } from '~/helpers/conditiontranslator';
 
 export default defineComponent({
   props: {
@@ -110,6 +111,18 @@ export default defineComponent({
       expand: false,
       time: 0,
     };
+  },
+  methods: {
+    getConditionIcon(condition: string): string {
+      console.log("attempting to fetch on condition:")
+      console.log(condition);
+      const translation = conditionTranslations.find(item => item.condition === condition);
+      return translation ? translation.icon : '';
+    },
+    getConditionTranslation(condition: string): string {
+      const translation = conditionTranslations.find(item => item.condition === condition);
+      return translation ? translation.translation : '';
+    }
   }
 });
 </script>
