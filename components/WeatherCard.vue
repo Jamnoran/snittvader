@@ -114,8 +114,6 @@ export default defineComponent({
   },
   methods: {
     getConditionIcon(condition: string): string {
-      console.log("attempting to fetch on condition:")
-      console.log(condition);
       const translation = conditionTranslations.find(item => item.condition === condition);
       return translation ? translation.icon : '';
     },
