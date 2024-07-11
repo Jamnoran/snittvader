@@ -52,18 +52,20 @@ export default {
     },
     processWeatherData(weatherDataArray) {
       const dailyForecasts = {};
+      const currentHour = new Date().getHours();
 
       weatherDataArray.forEach(data => {
-        // Process data from the yr.no weather source
         if (data.properties) {
           data.properties.timeseries.forEach(timeserie => {
-            const date = timeserie.time.split('T')[0];
+            const [date, time] = timeserie.time.split('T');
+            const hour = parseInt(time.split(':')[0]);
+
             if (!dailyForecasts[date]) {
-              dailyForecasts[date] = { temperatures: [], conditions: [] };
+              dailyForecasts[date] = { temperatures: [], timeseries: [] };
             }
             dailyForecasts[date].temperatures.push(timeserie.data.instant.details.air_temperature);
+            dailyForecasts[date].timeseries.push({ time: hour, temperature: timeserie.data.instant.details.air_temperature });
 
-            // Collect weather conditions
             const conditions = [];
             if (timeserie.data.next_12_hours) {
               conditions.push(timeserie.data.next_12_hours.summary.symbol_code);
@@ -76,7 +78,6 @@ export default {
             }
 
             if (conditions.length > 0) {
-              // Determine the most frequent condition
               const conditionCounts = conditions.reduce((acc, condition) => {
                 acc[condition] = (acc[condition] || 0) + 1;
                 return acc;
@@ -86,43 +87,48 @@ export default {
                 conditionCounts[a] > conditionCounts[b] ? a : b
               );
 
-              dailyForecasts[date].conditions.push(mostFrequentCondition);
+              dailyForecasts[date].condition = mostFrequentCondition;
             }
           });
         }
 
-        // Process data from SMHI
         if (data.timeSeries) {
           data.timeSeries.forEach(timeserie => {
-            const date = timeserie.validTime.split('T')[0];
+            const [date, time] = timeserie.validTime.split('T');
+            const hour = parseInt(time.split(':')[0]);
             const tempParam = timeserie.parameters.find(param => param.name === 't');
             if (tempParam) {
               if (!dailyForecasts[date]) {
-                dailyForecasts[date] = { temperatures: [], conditions: [] };
+                dailyForecasts[date] = { temperatures: [], timeseries: [] };
               }
               dailyForecasts[date].temperatures.push(tempParam.values[0]);
+              dailyForecasts[date].timeseries.push({ time: hour, temperature: tempParam.values[0] });
             }
           });
         }
       });
 
-      const averageWeather = Object.keys(dailyForecasts).map(date => {
+      const dailyWeather = Object.keys(dailyForecasts).map(date => {
         const temperatures = dailyForecasts[date].temperatures;
-        const averageTemperature = temperatures.reduce((sum, temp) => sum + temp, 0) / temperatures.length;
+        const highestTemperature = Math.max(...temperatures);
+        const lowestTemperature = Math.min(...temperatures);
 
-        const conditions = dailyForecasts[date].conditions;
-        const conditionCounts = conditions.reduce((acc, condition) => {
-          acc[condition] = (acc[condition] || 0) + 1;
-          return acc;
-        }, {});
+        const closestToCurrentHour = dailyForecasts[date].timeseries.reduce((prev, curr) => 
+          Math.abs(curr.time - currentHour) < Math.abs(prev.time - currentHour) ? curr : prev
+        );
 
-        const mostFrequentCondition = Object.keys(conditionCounts).reduce((a, b) => 
-          conditionCounts[a] > conditionCounts[b] ? a : b
-        , conditions[0]);
-
-        return { date, temperature: averageTemperature, condition: mostFrequentCondition };
+        return {
+          date,
+          highestTemperature,
+          lowestTemperature,
+          closestToCurrentHour: closestToCurrentHour.temperature,
+          condition: dailyForecasts[date].condition || 'unknown',
+          windSpeed: dailyForecasts[date].windSpeed || 0, // Add wind speed if available
+          humidity: dailyForecasts[date].humidity || 0 // Add humidity if available
+        };
       });
-      return averageWeather;
+
+      return dailyWeather;
     }
   }
 }

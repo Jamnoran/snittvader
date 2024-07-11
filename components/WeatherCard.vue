@@ -15,7 +15,9 @@
         <v-card-text class="py-0">
           <v-row align="center" no-gutters>
             <v-col class="text-h5 text-md-h3 text-left" cols="6">
-              {{ weatherDay.temperature.toFixed(1) }}&deg;C / {{ getConditionTranslation(weatherDay.condition) }}
+              {{ weatherDay.closestToCurrentHour.toFixed(1) }}&deg;C / {{ getConditionTranslation(weatherDay.condition) }}
+              <div class="small-temp">Högsta: {{ weatherDay.highestTemperature?.toFixed(1) }}&deg;C</div>
+              <div class="small-temp">Lägsta: {{ weatherDay.lowestTemperature?.toFixed(1) }}&deg;C</div>
             </v-col>
             <v-col class="text-right" cols="6">
               <v-img
@@ -126,6 +128,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.small-temp {
+  font-size: 0.65em; /* Adjust the size as needed */
+}
 @media (max-width: 600px) {
   .custom-padding-xs {
     padding: 16px; /* Equivalent to pa-4 */
